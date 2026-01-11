@@ -1,4 +1,4 @@
-name: AWS Connection Test
+name: AWS S3 Bucket Creation
 
 on:
   push:
@@ -6,11 +6,11 @@ on:
       - main
 
 jobs:
-  aws-test:
+  create-s3:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
@@ -22,3 +22,10 @@ jobs:
 
       - name: Verify AWS Identity
         run: aws sts get-caller-identity
+
+      - name: Create S3 Bucket
+        run: |
+          aws s3api create-bucket \
+            --bucket abdulhannan-github-actions-bucket-2026 \
+            --region ap-south-1 \
+            --create-bucket-configuration LocationConstraint=ap-south-1
